@@ -40,7 +40,24 @@ function App() {
   }
 
   const handleSpecialOperations = (value) => {
-    let num = parseFloat(input)
+    let evaluatedInput
+
+    try {
+      evaluatedInput = eval(
+        input.replace(/×/g, '*').replace(/÷/g, '/')
+      )
+    } catch {
+      setInput('Error')
+      return
+    }
+
+    let num = parseFloat(evaluatedInput)
+
+    if (isNaN(num)) {
+      setInput('Error')
+      return
+    }
+  
     switch (value) {
       case 'x²':
         setInput(Math.pow(num, 2).toString())
@@ -93,6 +110,9 @@ function App() {
       case '×10ʸ':
         setInput(num * Math.pow(10, num).toString())
         break
+      case 'exp':
+        setInput(input + '*10**')
+        break
       default:
         break
     }
@@ -135,7 +155,7 @@ function App() {
           <button className="button" onClick={() => handleSpecialOperations('xʸ')}>xʸ</button>
           <button className="button" onClick={() => handleSpecialOperations('√')}>√</button>
           <button className="button" onClick={() => handleSpecialOperations('∛')}>∛</button>
-          <button className="button" onClick={() => handleClick('exp')}>exp</button>
+          <button className="button" onClick={() => handleSpecialOperations('exp')}>exp</button>
           <button className="button" onClick={() => handleClick('7')}>7</button>
           <button className="button" onClick={() => handleClick('8')}>8</button>
           <button className="button" onClick={() => handleClick('9')}>9</button>
@@ -157,7 +177,7 @@ function App() {
           <button className="button" onClick={() => handleClick('0')}>0</button>
           <button className="button" onClick={() => handleClick('.')}>.</button>
           <button className="button equal" onClick={() => handleClick('=')}>=</button>
-          <button className="button" onClick={() => handleClick('+')}>+</button>
+          <button className="button" onClick={() => handleClick('÷')}>÷</button> 
           <button className="button" onClick={() => handleSpecialOperations('!')}>!</button>
           <button className="button" onClick={() => handleSpecialOperations('mod')}>mod</button>
           <button className="button special" onClick={() => handleClick('AC')}>AC</button>
